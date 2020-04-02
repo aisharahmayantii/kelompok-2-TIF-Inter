@@ -1,0 +1,20 @@
+.masthead {
+    height: 50vh;
+    min-height: 500px;
+    background-image: url('../../img/cover\ sneaktion.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  .cek {
+    margin-left: 170px;
+}
+
+  @media screen and (max-width: 640px) {
+.cek{
+  margin-left: 0px;
+}
+img{
+  width: 96%;
+}
+  }
