@@ -23,10 +23,16 @@ class Login extends CI_Controller {
 		$cek = $this->mlogin->cek_login("admin",$where)->num_rows();
 		if($cek > 0){
 			
-			$idds = $this->mlogin->ambil_id($idd);
+			$this->db->select('id_admin');
+			$this->db->from('admin');
+			$this->db->where('username', $username);
+			$query = $this->db->get();
+			$result = $query->row();
+			$ayam = $result->id_admin;
+			
 		
 			$data_session = array(	
-				'id' => $idds,
+				'id' => $ayam,
 				'status' => "login"
 				);
 	 

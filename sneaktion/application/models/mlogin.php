@@ -22,9 +22,6 @@ class mlogin extends CI_Model{
 		$this->db->where($where);
 		$this->db->delete($table);
 	}
-	function ambil_id($table,$where){
-	 $idd =  $this->db->get_where('admin', array('username' => $where))->result_array();
-	 return $idd;
-	}	
+
 }
 ?>

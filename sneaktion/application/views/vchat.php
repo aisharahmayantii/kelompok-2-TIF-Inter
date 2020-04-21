@@ -23,11 +23,11 @@
         <div class="content-body"><!-- Line Awesome section start -->
 <section id="line-awesome-icons">
   <div class="row">
-      <div class="col-3">
+      <div class="chatlist">
           <div class="card">
               <div style="background:rgba(180, 24, 19, 1)" class="card-header">
                   <h4 style="color:white;" class="card-title">Chat List</h4>
-</div>
+			  </div>
                   <div class="container">
                     <ul class="list-group list-group-flush">
                       <?php foreach($user->result() as $row){ ?>
@@ -35,11 +35,11 @@
                       <?php } ?>
                     </ul>
                   </div>
-               </div>
-               </div>
+          </div>
+        </div>
 
 
-      <div class="col-9">
+      <div class="col-9 chatbox">
             <div class="card">
               <div style="background:rgba(180, 24, 19, 1)" class="card-header">
                 <h4 style="color:white;" class="card-title">Chat Box</h4>

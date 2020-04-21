@@ -29,6 +29,65 @@
     <!-- END Page Level CSS-->
     <!-- BEGIN Custom CSS-->
     <!-- END Custom CSS-->
+    <style>
+    .thumbnail {
+		padding:0px;
+	}
+	.panel-comment {
+		position:relative;width:45%;
+	}
+	
+	.panel-comment > .panel-heading{
+		background-color:#E6E2E2 !important;
+	}
+	.panel-comment>.panel-heading:after,.panel>.panel-heading:before{
+		position:absolute;
+		top:11px;left:-16px;
+		right:100%;
+		width:0;
+		height:0;
+		display:block;
+		content:" ";
+		border-color:transparent;
+		border-style:solid solid outset;
+		pointer-events:none;
+	}
+	
+	.panel-comment>.panel-heading:after{
+		border-width:7px;
+		border-right-color:#E6E2E2;
+		margin-top:1px;
+		margin-left:2px;
+	}
+	.panel-comment>.panel-heading:before{
+		border-right-color:#ddd;
+		border-width:8px;
+  }
+
+  .chatlist {
+  -ms-flex: 0 0 25%;
+  flex: 0 0 25%;
+  max-width: 25%;
+}
+
+
+
+  @media screen and (max-width: 640px) {
+  .chatlist{
+  -ms-flex: 0 0 100%;
+  flex: 0 0 100%;
+  max-width: 100%;
+  }
+  .chatbox{
+  -ms-flex: 0 0 100%;
+  flex: 0 0 100%;
+  max-width: 100%;
+  padding: 0 0 ;
+  }
+}
+
+ 
+</style>
   </head>
   <body class="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar" data-open="click" data-menu="vertical-menu"  data-col="2-columns">
 

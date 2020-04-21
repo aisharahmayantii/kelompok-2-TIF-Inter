@@ -8,7 +8,6 @@ class Admin extends CI_Controller {
 		$this->load->helper('url');
 		$this->load->model('mlogin');
 		$this->load->model('model_user');
-		print_r($this->session->all_userdata());
 		$this->load->model('model_chat');
 		if($this->session->userdata('status') != "login"){
 			redirect(site_url("Login"));
