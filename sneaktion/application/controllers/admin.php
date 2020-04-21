@@ -7,6 +7,7 @@ class Admin extends CI_Controller {
 		parent::__construct();
 		$this->load->helper('url');
 		$this->load->model('mlogin');
+		$this->load->model('mlaporan');
 		$this->load->model('model_user');
 		$this->load->model('model_chat');
 		if($this->session->userdata('status') != "login"){
@@ -22,10 +23,12 @@ class Admin extends CI_Controller {
 	}
 
 	function laporan(){
+		$data['proses'] = $this->mlaporan->cekstatus();
+		$data['selesai'] = $this->mlaporan->selesai();
 		$this->load->view('addons/header');
 		$this->load->view('addons/adminsidebar');
 		$this->load->view('vlaporan');
-		$this->load->view('addons/footer');
+		$this->load->view('addons/footer',$data);
 	}
 	function chat(){
 		$data['user']	= $this->model_user->getAll(array("id_user !=" => $this->session->userdata('id')));

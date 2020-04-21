@@ -47,8 +47,9 @@
             </div>
         </div>
     </div>
-    
     <!-- Bar Chart -->
+<!--     
+    
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -76,11 +77,11 @@
     </div>
 
 </section>
-<!-- // Bar charts section end -->
+//bar end
 
-<!-- line chart section start -->
+// line char mulai
 <section id="chartjs-line-charts">
-    <!-- Line Chart -->
+    //line chart
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -108,12 +109,12 @@
     </div>
 
 </section>
-<!-- // line chart section end -->
+// line chart end
 
-<!-- Pie charts section start -->
+// pie chart
 <section id="chartjs-pie-charts">
     <div class="row">
-        <!-- Simple Pie Chart -->
+        //simple pie chart
         <div class="col-md-6 col-sm-12">
             <div class="card">
                 <div class="card-header">
@@ -138,7 +139,7 @@
             </div>
         </div>
 
-        <!-- Simple Doughnut Chart -->
+        //simple donat chart
         <div class="col-md-6 col-sm-12">
             <div class="card">
                 <div class="card-header">
@@ -163,7 +164,7 @@
             </div>
         </div>
     </div>    
-</section>
+</section> -->
 <!-- // Pie charts section end -->
 
         </div>
@@ -181,3 +182,85 @@
         </ul>
       </div>
     </footer>
+    <script>
+    $(window).on("load", function(){
+
+//Get the context of the Chart canvas element we want to select
+var ctx = $("#column-chart");
+
+// Chart Options
+var chartOptions = {
+    // Elements options apply to all of the options unless overridden in a dataset
+    // In this case, we are setting the border of each bar to be 2px wide and green
+    elements: {
+        rectangle: {
+            borderWidth: 2,
+            borderColor: 'rgb(0, 255, 0)',
+            borderSkipped: 'bottom'
+        }
+    },
+    responsive: true,
+    maintainAspectRatio: false,
+    responsiveAnimationDuration:500,
+    legend: {
+        position: 'top',
+    },
+    scales: {
+        xAxes: [{
+            display: true,
+            gridLines: {
+                color: "#f3f3f3",
+                drawTicks: false,
+            },
+            scaleLabel: {
+                display: true,
+            }
+        }],
+        yAxes: [{
+            display: true,
+            gridLines: {
+                color: "#f3f3f3",
+                drawTicks: false,
+            },
+            scaleLabel: {
+                display: true,
+            }
+        }]
+    },
+    title: {
+        display: true,
+        text: 'Chart.js Bar Chart'
+    }
+};
+
+// Chart Data
+var chartData = {
+    labels: ["January", "February", "March", "April", "May", "June"],
+    datasets: [{
+        label: "2017",
+        data: [65, 85, 40, 81, 56, 75],
+        backgroundColor: "#28D094",
+        hoverBackgroundColor: "rgba(40,208,148,.9)",
+        borderColor: "transparent"
+    }, {
+        label: "2018",
+        data: [45, 65, 65, 19, 86, 35],
+        backgroundColor: "#FF4961",
+        hoverBackgroundColor: "rgba(255,73,97,.9)",
+        borderColor: "transparent"
+    }]
+};
+
+var config = {
+    type: 'bar',
+
+    // Chart Options
+    options : chartOptions,
+
+    data : chartData
+};
+
+// Create the chart
+var lineChart = new Chart(ctx, config);
+});
+</script>
