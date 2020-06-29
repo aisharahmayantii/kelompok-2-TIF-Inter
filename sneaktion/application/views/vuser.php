@@ -19,7 +19,7 @@
             </div>
           </div>
         </div>
-<!-- Table head options start -->
+<!-- Suped Admin -->
 <div class="row">
 	<div class="col-12">
 		<div class="card">
@@ -44,7 +44,8 @@
 							<tr>
 								<th scope="col">#</th>
 								<th scope="col">Username</th>
-								<th scope="col">Password</th>
+								<th scope="col">Kewarganegara</th>
+								<th scope="col">Image</th>
 								<th scope="col">Opsi</th>
 							</tr>
 						</thead>
@@ -56,8 +57,23 @@
 							<tr>
 								<th scope="row"><?php echo $no++ ?></th>
 								<td><?php echo $u->username ?></td>
-								<td><?php echo $u->password ?></td>
-								<td><a href="<?php echo base_url('admin/hapus/'.$u->id_admin)?>"><button type="button" class="la la-trash-o"></button></a>&nbsp;<button type="button" data-target="#<?php echo $u->id_admin?>" data-toggle="modal" class="la la-edit"></button></td>
+								<?php 
+								if($u->negara !=null){
+								echo"<td>.$u->negara</td>";
+								}else{
+									echo "<td style='color:grey'>Kewarganegaraan tidak diketahui</td>";
+								} ?></td>
+								<td>
+								<?php if($u->image !=null){
+								echo '<img src="'.base_url("uploads/".$u->image).'"width="100px" height="100px">';
+								}else{
+									echo 'Image Tidak Ada'; }?></td>
+								<td><a href="<?php 
+								if($u->image !=null){
+								echo base_url('admin/hapus/'.$u->image);
+								}else{
+									echo base_url('admin/hapus1/'.$u->id_admin);
+								}?>"><button type="button" class="la la-trash-o"></button></a>&nbsp;<button type="button" data-target="#<?php echo $u->id_admin?>" data-toggle="modal" class="la la-edit"></button></td>
 							</tr>
 						<?php }?>
 						</tbody>
@@ -136,14 +152,58 @@
         </button>
       </div>
       <div class="modal-body">
-	  	<form action="<?php echo base_url().'admin/tambahuser_aksi'; ?>" method="post">
+	  <form method="post" action="<?=base_url('Admin/tambahuser_aksi')?>" enctype="multipart/form-data">
 			<div class="form-group">
 				<label for="exampleInputEmail1">Username</label>
-				<input type="text" class="form-control" id="exampleInputEmail1" name="username" aria-describedby="emailHelp">
+				<input type="text" class="form-control" id="exampleInputEmail1" name="username1" aria-describedby="emailHelp">
 			</div>
 			<div class="form-group">
 				<label for="exampleInputPassword1">Password</label>
 				<input type="password" class="form-control" name="password" id="exampleInputPassword1">
+			</div>
+			<?php
+			function getUserIP()
+			{
+				// Get real visitor IP behind CloudFlare network
+				if (isset($_SERVER["HTTP_CF_CONNECTING_IP"])) {
+						  $_SERVER['REMOTE_ADDR'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
+						  $_SERVER['HTTP_CLIENT_IP'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
+				}
+				$client  = @$_SERVER['HTTP_CLIENT_IP'];
+				$forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
+				$remote  = $_SERVER['REMOTE_ADDR'];
+			
+				if(filter_var($client, FILTER_VALIDATE_IP))
+				{
+					$ip = $client;
+				}
+				elseif(filter_var($forward, FILTER_VALIDATE_IP))
+				{
+					$ip = $forward;
+				}
+				else
+				{
+					$ip = $remote;
+				}
+			
+				return $ip;
+			}
+			
+			
+			$user_ip = getUserIP();
+
+			?>
+			<label for="sel1">Kewarganegaraan</label>
+      			<select class="form-control" name="negara" id="sel1">
+        			<option value="Indonesia">Indonesia</option>
+        			<option value="Malaysia">Malaysia</option>
+					<option value="Singapore">Singapore</option>
+					<option value="Timor Leste">Timor Leste</option>
+				</select>
+			</br>
+			<div class="form-group">
+				<label for="image_input">Gambar</label>
+				<input type="file" class="form-control" name="image_input" id="image_input">
 			</div>
       	</div>
       <div class="modal-footer">
@@ -171,15 +231,67 @@ foreach($admin as $u){
         </button>
       </div>
       <div class="modal-body">
-	  	<form action="<?php echo base_url().'admin/update'; ?>" method="post">
+	  <form method="post" action="<?=base_url('Admin/update')?>" enctype="multipart/form-data">
 			<div class="form-group">
 			<input type="hidden" class="form-control" id="exampleInputEmail1" value="<?php echo $u->id_admin ?>" name="id" aria-describedby="emailHelp">
+			<input type="hidden" class="form-control" id="exampleInputEmail1" value="<?php echo $u->image ?>" name="sekarang" aria-describedby="emailHelp">
 				<label for="exampleInputEmail1">Username</label>
 				<input type="text" class="form-control" id="exampleInputEmail1" value="<?php echo $u->username ?>" name="username" aria-describedby="emailHelp">
 			</div>
 			<div class="form-group">
 				<label for="exampleInputPassword1">Password</label>
 				<input type="password" class="form-control" name="password" value="<?php echo $u->password ?>" id="exampleInputPassword1">
+			</div>
+			<label for="sel1">Kewarganegaraan </label>
+      			<select class="form-control" name="negara" id="sel1">
+				  <?php 
+				  
+				  if ($u->negara == "Indonesia"){
+
+					echo 
+					"<option value='Indonesia' selected>Indonesia</option>
+        			<option value='Malaysia'>Malaysia</option>
+					<option value='Singapore'>Singapore</option>
+					<option value='Timor Leste'>Timor Leste</option>";
+
+				  }elseif ($u->negara == "Malaysia"){
+					echo 
+					"<option value='Indonesia'>Indonesia</option>
+        			<option value='Malaysia' Selected>Malaysia</option>
+					<option value='Singapore'>Singapore</option>
+					<option value='Timor Leste'>Timor Leste</option>";
+
+				  }elseif ($u->negara == "Malaysia"){
+					echo 
+					"<option value='Indonesia'>Indonesia</option>
+        			<option value='Malaysia' Selected>Malaysia</option>
+					<option value='Singapore'>Singapore</option>
+					<option value='Timor Leste'>Timor Leste</option>";
+				  }elseif ($u->negara =="Singapore"){
+					echo 
+					"<option value='Indonesia'>Indonesia</option>
+        			<option value='Malaysia'>Malaysia</option>
+					<option value='Singapore' Selected>Singapore</option>
+					<option value='Timor Leste'>Timor Leste</option>";
+				  }elseif ($u->negara =="Timor Leste"){
+					echo 
+					"<option value='Indonesia'>Indonesia</option>
+        			<option value='Malaysia'>Malaysia</option>
+					<option value='Singapore' Selected>Singapore</option>
+					<option value='Timor Leste'>Timor Leste</option>";
+				  }else{
+					  echo" <option value='' disabled selected>Anda Belum Memilih Kewarganegaraan</option>
+							<option value='Indonesia'>Indonesia</option>
+							<option value='Malaysia'>Malaysia</option>
+							<option value='Singapore'>Singapore</option>
+							<option value='Timor Leste'>Timor Leste</option>";
+				  }?>
+				</select>
+				</br>
+			<div class="form-group">
+				<label for="image_up">Image</label><br>
+				<center><img src="<?php echo base_url("uploads/".$u->image) ?>" width="100px" height="100px"><center><br>
+				<input type="file" class="form-control" name="image_up" id="image_up">
 			</div>
       	</div>
       <div class="modal-footer">

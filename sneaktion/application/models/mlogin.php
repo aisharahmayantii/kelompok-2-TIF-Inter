@@ -7,6 +7,9 @@ class mlogin extends CI_Model{
 	function tampil_dataadmin(){
 		return $this->db->get('admin');
 	}
+	function tampil_datathreads(){
+		return $this->db->get('threads');
+	}
 	function input_data($data, $table){
 		$this->db->insert($table, $data);
 	}
@@ -22,6 +25,15 @@ class mlogin extends CI_Model{
 		$this->db->where($where);
 		$this->db->delete($table);
 	}
+
+	function bulan_kemarin($month,$year){
+		return $this->db->get_where('transaksi', array('MONTH(tanggal) ' => $month, 'YEAR(tanggal)'=> $year))->num_rows();
+	}
+
+	function bulan_sekarang($month,$year){
+		return $this->db->get_where('transaksi', array('MONTH(tanggal) ' => $month, 'YEAR(tanggal)'=> $year))->num_rows();
+	}
+
 
 }
 ?>

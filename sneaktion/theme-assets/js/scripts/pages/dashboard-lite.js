@@ -164,7 +164,7 @@
 
     var ProjectStatsLine = new Chartist.Line('#progress-stats-line-chart', {
         series: [
-            [10, 15, 7, 12, 3, 16]
+            [20, 20, 27, 12, 3, 16]
         ]
     }, lineOptions);
 
@@ -201,7 +201,7 @@
                 cy: data.y,
                 'ct:value': data.y,
                 r: circleRadius,
-                class: data.value.y === 15 ? 'ct-point ct-point-circle' : 'ct-point ct-point-circle-transperent'
+                class: data.value.y === 20 ? 'ct-point ct-point-circle' : 'ct-point ct-point-circle-transperent'
             });
             data.element.replace(circle);
         }
@@ -274,9 +274,9 @@
     ////////////////////////////////////////////////////////////////////////////////
 
     var ProjectStatsBar2 = new Chartist.Bar('#progress-stats-bar-chart2', {
-        labels: ['Mon', 'Tue', 'Wex', 'Thu', 'Fri', 'Sat', 'Sun'],
+        labels: ['Jan', 'Feb', 'Man', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
         series: [
-            [20, 17, 14, 18, 15, 20, 18]
+            [20, 17, 14, 18, 15, 20, 18, 20, 17, 14, 18, 20]
         ]
     }, barOptions);
 

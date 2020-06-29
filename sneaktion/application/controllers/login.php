@@ -6,6 +6,7 @@ class Login extends CI_Controller {
 	function __construct(){
 		parent::__construct();		
 		$this->load->model('mlogin');
+		$this->load->model('mlaporan');
  
 	}
  
@@ -50,4 +51,7 @@ class Login extends CI_Controller {
 		$this->session->sess_destroy();
 		redirect(base_url('Login'));
 	}
+
+
+
 }

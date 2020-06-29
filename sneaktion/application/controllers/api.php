@@ -22,18 +22,6 @@ class Api extends REST_Controller {
         $this->response($kontak, 200);
     }
 
-    function index_cek() {
-        $this->db->select('username, password');
-        $result = $this->db->get('user');
-        while($row = $result->fetch_assoc()) { 
-             
-            echo json_encode(Array('status' => 'success'));  
-          }  
-        } else {  
-          echo json_encode(Array('status' => 'failed'));  
-        }  
-    }
-
     function index_post() {
         $data = array(
                     'id'           => $this->post('id'),

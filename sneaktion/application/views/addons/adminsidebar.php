@@ -9,34 +9,34 @@
       <div class="main-menu-content">
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
           <?php 
-          $url =  $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']; ?>
+          $url =  $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];?>
           <li class="<?php  
-          if($url == "localhost/sneaktion/admin/home")
+          if($url == "localhost/kelompok-2-TIF-Inter/sneaktion/admin/home")
           echo 'active';
           else
           echo 'nav-item';
          ?>"><a href="<?php echo base_url('admin/home')?>"><i class="ft-home"></i><span class="menu-title" data-i18n="">Dashboard</span></a>
           </li>
           <li class="<?php
-          if($url == "localhost/sneaktion/admin/laporan")
+          if($url == "localhost/kelompok-2-TIF-Inter/sneaktion/admin/laporan")
           echo 'active';
           else
           echo 'nav-item';
-           ?>"><a href="<?php echo base_url('admin/laporan')?>"><i class="ft-pie-chart"></i><span class="menu-title" data-i18n="">Laporan</span></a>
+           ?>"><a href="<?php echo base_url('admin/laporan')?>"><i class="la la-tags"></i><span class="menu-title" data-i18n="">Invoice</span></a>
           </li>
           <li class="<?php
-          if($url == "localhost/sneaktion/admin/user")
+          if($url == "localhost/kelompok-2-TIF-Inter/sneaktion/admin/user")
           echo 'active';
           else
           echo 'nav-item';
            ?>"><a href="<?php echo base_url('admin/user')?>"><i class="la la-user"></i><span class="menu-title" data-i18n="">User</span></a>
           </li>
-          <li class="<?php
-          if($url == "localhost/sneaktion/admin/chat")
+           <li class="<?php
+          if($url == "localhost/kelompok-2-TIF-Inter/sneaktion/admin/thread")
           echo 'active';
           else
           echo 'nav-item';
-           ?>"><a href="<?php echo base_url('admin/chat')?>"><i class="ft-message-circle"></i><span class="menu-title" data-i18n="">Chat</span></a>
+           ?>"><a href="<?php echo base_url('admin/thread')?>"><i class="ft-layout"></i><span class="menu-title" data-i18n="">Thread</span></a>
           </li>
         </ul>
       </div>

@@ -2,8 +2,10 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
  
 class Admin extends CI_Controller {
-    public function __construct()
+	
+	 function __construct()
     {
+		
 		parent::__construct();
 		$this->load->helper('url');
 		$this->load->model('mlogin');
@@ -16,30 +18,46 @@ class Admin extends CI_Controller {
 	}
 
 	function home(){
-		$this->load->view('addons/header');
+		$user['admin']	= $this->model_user->getAdmin(array("id_admin =" => $this->session->userdata('id')));
+		date_default_timezone_set('Asia/Jakarta'); 
+                $this_year= date("Y");
+				$yesteday = date("m")-1;
+				$now = date("m");
+		$invoice['last'] = $this->mlogin->bulan_kemarin($yesteday,$this_year);
+		$invoice['wes'] = $this->mlogin->bulan_sekarang($now,$this_year);
+		$this->load->view('addons/header',$user);
 		$this->load->view('addons/adminsidebar');
-		$this->load->view('vadminhome');
+		$this->load->view('vadminhome',$invoice);
 		$this->load->view('addons/footer');
 	}
-
+	
 	function laporan(){
-		$data['proses'] = $this->mlaporan->cekstatus();
+		$user['admin']	= $this->model_user->getAdmin(array("id_admin =" => $this->session->userdata('id')));
+		$data['prosses'] = $this->mlaporan->cekstatus();
 		$data['selesai'] = $this->mlaporan->selesai();
-		$this->load->view('addons/header');
-		$this->load->view('addons/adminsidebar');
-		$this->load->view('vlaporan');
-		$this->load->view('addons/footer',$data);
+		$this->load->view('vlaporan', $data,$user);
 	}
+	
 	function chat(){
+		$user['admin']	= $this->model_user->getAdmin(array("id_admin =" => $this->session->userdata('id')));
 		$data['user']	= $this->model_user->getAll(array("id_user !=" => $this->session->userdata('id')));
-		$this->load->view('addons/header');
+		$this->load->view('addons/header',$user);
 		$this->load->view('addons/adminsidebar');
 		$this->load->view('vchat', $data);
 		$this->load->view('addons/footer');
 	}
+	function thread(){
+		$user['admin']	= $this->model_user->getAdmin(array("id_admin =" => $this->session->userdata('id')));
+		$data['threads']	= $this->mlogin->tampil_datathreads()->result();
+		$this->load->view('addons/header',$user);
+		$this->load->view('addons/adminsidebar');
+		$this->load->view('vthread', $data);
+		$this->load->view('addons/footer');
+	}
 	function user(){
+		$user['admin']	= $this->model_user->getAdmin(array("id_admin =" => $this->session->userdata('id')));
 		$data['admin'] = $this->mlogin->tampil_dataadmin()->result();
-		$this->load->view('addons/header');
+		$this->load->view('addons/header',$user);
 		$this->load->view('addons/adminsidebar');
 		$this->load->view('vuser',$data);
 		$this->load->view('addons/footer');
@@ -47,38 +65,152 @@ class Admin extends CI_Controller {
 	function tambahuser(){
 		$this->load->view('v_input');
 	}
-
+	
 	function tambahuser_aksi(){
-		$username = $this->input->post('username');
+		$username = $this->input->post('username1');
 		$password = $this->input->post('password');
+		$negara = $this->input->post('negara');
+		$poto = $this->input->post('image_input');
+		$file_ext = pathinfo($_FILES['image_input']['name'], PATHINFO_EXTENSION);
 
-		$data = array(
-			'username' => $username,
-			'password' => $password
-			);
-		$this->mlogin->input_data($data,'admin');
-		redirect('admin/user');
+		$config['upload_path']		=	'./uploads/';
+             $config['allowed_types']	=	'jpg|png|jpeg|JPG';
+             $config['max_size']			=	10048;
+             $config['file_name']		=	'picture-'.date('ymd').'-'.substr(md5(rand()),0,10);
+
+             $this->load->library('upload', $config);
+
+             if(@$_FILES['image_input']['name'] != null)
+             {
+                 if($this->upload->do_upload('image_input'))
+                 {
+					$data = array(
+						'username' => $username,
+						'password' => $password,
+						'image' => $config['file_name'].".".$file_ext
+						);
+					$this->mlogin->input_data($data,'admin');
+					redirect('admin/user');
+ 
+                     if($this->db->affected_rows() > 0)
+                     {
+                         echo "<script>alert('data Testimoni Berhasil Di simpan');</script>";
+                     }
+                     echo "<script>window.location='".site_url('admin/user')."';</script>";
+ 
+                 }
+                 else
+                 {
+                     echo "<script>alert('error di bagian inputan gambarnya');</script>";
+                 }
+                 if($this->db->affected_rows() > 0)
+                 {
+                     echo "<script>alert('data Testimoni Berhasil Di simpan');</script>";
+                 }
+                 echo "<script>window.location='".site_url('admin/user')."';</script>";
+             
+             } 
+             else
+             {	$data = array(
+				'username' => $username,
+				'password' => $password,
+				'negara' => $negara,
+				'image' => null
+				);
+			$this->mlogin->input_data($data,'admin');
+			redirect('admin/user');
+     
+                 if($this->db->affected_rows() > 0)
+                 {
+                     echo "<script>alert('data Testimoni Berhasil Di simpan');</script>";
+                 }
+                 echo "<script>window.location='".site_url('admin/menu/Testimoni')."';</script>";
+             }
+	
+		// $data = array(
+		// 	'username' => $username,
+		// 	'password' => $password,
+		// 	'image' => $image
+		// 	);
+		// $this->mlogin->input_data($data,'admin');
+		// redirect('admin/user');
 	}
 	function update(){
 		$id = $this->input->post('id');
 		$username = $this->input->post('username');
 		$password = $this->input->post('password');
-	 
-		$data = array(
-			'username' => $username,
-			'password' => $password
-		);
-	 
-		$where = array(
-			'id_admin' => $id
-		);
-	 
-		$this->mlogin->update_data($where,$data,'admin');
+		$negara = $this->input->post('negara');
+		$image = $this->input->post('image_up');
+		$imgtarget = $this->input->post('sekarang');
+		$file_ext = pathinfo($_FILES['image_up']['name'], PATHINFO_EXTENSION);
+		$target=('uploads/'.$imgtarget);
+
+		$config['upload_path']		=	'./uploads/';
+		$config['allowed_types']	=	'jpg|png|jpeg';
+		$config['max_size']			=	2048;
+		$config['file_name']		=	'picture-'.date('ymd').'-'.substr(md5(rand()),0,10);
+
+		echo $imgtarget;
+
+		$this->load->library('upload', $config);
+		if(@$_FILES['image_up']['name'] != null)
+		{
+			if($this->upload->do_upload('image_up'))
+			{
+				if($imgtarget != null){
+					
+					unlink($target);
+
+				}
+				$where = array(
+					'id_admin' => $id
+				);
+			   $data = array(
+				   'username' => $username,
+				   'password' => $password,
+				   'negara'	  => $negara,
+				   'image' => $config['file_name'].".".$file_ext
+				   );
+			   $this->mlogin->update_data($where,$data,'admin');
+			   redirect('admin/user');
+		
+		}
+	} 
+		else
+		{	
+			$where = array(
+				'id_admin' => $id
+			);
+		 
+			
+			$data = array(
+		   'username' => $username,
+		   'password' => $password,
+		   'negara'	  => $negara,
+		   );
+	   $this->mlogin->update_data($where,$data,'admin');
 		redirect('admin/user');
 	}
+}
+
 	function hapus($id){
+		$where = array('image' => $id);
+		$target=('uploads/'.$id);
+		echo $target;
+		if($id != null){
+					
+			unlink($target);
+
+		}
+
+		$this->mlogin->hapus_data($where,'admin');
+	
+		redirect('admin/user');
+	}
+	function hapus1($id){
 		$where = array('id_admin' => $id);
 		$this->mlogin->hapus_data($where,'admin');
+	
 		redirect('admin/user');
 	}
 	function getChat(){
@@ -88,7 +220,7 @@ class Admin extends CI_Controller {
 		$id_user	= $this->input->post("id_user",true); //tujuan
 		$id			= $this->session->userdata('id'); //dari
 		$id_max		= $this->input->post('id_max'); //dari
-
+	
 		$where	= "(((user_1 = '$id_user' AND user_2 = '$id') OR (user_2 = '$id_user' AND user_1 = '$id')) AND id_chat > '$id_max')";
 		$chat	= $this->model_chat->getAll($where);
 		$data['id_max']		= $id_max;
@@ -104,7 +236,7 @@ class Admin extends CI_Controller {
 		$id_user	= $this->input->post("id_user",true); //tujuan
 		$id			= $this->session->userdata('id'); //dari
 		$id_max		= $this->input->post('id_max'); //dari
-
+	
 		$where	= "(((user_1 = '$id_user' AND user_2 = '$id') OR (user_2 = '$id_user' AND user_1 = '$id')))";
 		$chat	= $this->model_chat->getAll($where);
 		
@@ -154,5 +286,4 @@ class Admin extends CI_Controller {
 		echo json_encode(array("result"=>$rs));
 		
 	}
-	
 }
