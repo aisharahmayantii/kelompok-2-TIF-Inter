@@ -25,6 +25,18 @@ class mlogin extends CI_Model{
 		$this->db->where($where);
 		$this->db->delete($table);
 	}
+	function tampil_data($data){
+		return $this->db->get($data);
+	}
+
+	function tampil_data1($data){
+		$this->db->select('*');
+		$this->db->from('transaksi');
+ 
+		$this->db->where('user_admin','1');
+		$query = $this->db->get();
+		return $query->result();
+		}
 
 	function bulan_kemarin($month,$year){
 		return $this->db->get_where('transaksi', array('MONTH(tanggal) ' => $month, 'YEAR(tanggal)'=> $year))->num_rows();

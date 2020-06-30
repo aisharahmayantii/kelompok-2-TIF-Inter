@@ -18,11 +18,11 @@
          ?>"><a href="<?php echo base_url('admin/home')?>"><i class="ft-home"></i><span class="menu-title" data-i18n="">Dashboard</span></a>
           </li>
           <li class="<?php
-          if($url == "localhost/kelompok-2-TIF-Inter/sneaktion/admin/laporan")
+          if($url == "localhost/kelompok-2-TIF-Inter/sneaktion/admin/invo")
           echo 'active';
           else
           echo 'nav-item';
-           ?>"><a href="<?php echo base_url('admin/laporan')?>"><i class="la la-tags"></i><span class="menu-title" data-i18n="">Invoice</span></a>
+           ?>"><a href="<?php echo base_url('admin/invo')?>"><i class="la la-tags"></i><span class="menu-title" data-i18n="">Invoice</span></a>
           </li>
           <li class="<?php
           if($url == "localhost/kelompok-2-TIF-Inter/sneaktion/admin/user")

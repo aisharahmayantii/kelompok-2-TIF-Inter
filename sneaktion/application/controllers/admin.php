@@ -49,9 +49,20 @@ class Admin extends CI_Controller {
 	function thread(){
 		$user['admin']	= $this->model_user->getAdmin(array("id_admin =" => $this->session->userdata('id')));
 		$data['threads']	= $this->mlogin->tampil_datathreads()->result();
+		
 		$this->load->view('addons/header',$user);
 		$this->load->view('addons/adminsidebar');
 		$this->load->view('vthread', $data);
+		$this->load->view('addons/footer');
+	}
+
+	function invo(){
+		$user['admin']	= $this->model_user->getAdmin(array("id_admin =" => $this->session->userdata('id')));
+		$data['datainv']	= $this->mlogin->tampil_data("transaksi")->result();
+		$data['user']	=$this->session->userdata('id');
+		$this->load->view('addons/header',$user);
+		$this->load->view('addons/adminsidebar');
+		$this->load->view('v_invo', $data);
 		$this->load->view('addons/footer');
 	}
 	function user(){
@@ -135,6 +146,67 @@ class Admin extends CI_Controller {
 		// $this->mlogin->input_data($data,'admin');
 		// redirect('admin/user');
 	}
+	function tambah_threads(){
+		$judul = $this->input->post('judul');
+		$isi = $this->input->post('isi');
+		$poto = $this->input->post('image_input');
+		$file_ext = pathinfo($_FILES['image_input']['name'], PATHINFO_EXTENSION);
+
+		$config['upload_path']		=	'./uploads/';
+             $config['allowed_types']	=	'jpg|png|jpeg|JPG';
+             $config['max_size']			=	10048;
+             $config['file_name']		=	'thread-'.date('ymd').'-'.substr(md5(rand()),0,10);
+
+             $this->load->library('upload', $config);
+
+             if(@$_FILES['image_input']['name'] != null)
+             {
+                 if($this->upload->do_upload('image_input'))
+                 {
+					$data = array(
+						'title_threads' => $judul,
+						'isi_threads' => $isi,
+						'img_threads' => $config['file_name'].".".$file_ext
+						);
+					$this->mlogin->input_data($data,'threads');
+					redirect('admin/thread');
+ 
+                     if($this->db->affected_rows() > 0)
+                     {
+                         echo "<script>alert('data Testimoni Berhasil Di simpan');</script>";
+                     }
+                     echo "<script>window.location='".site_url('admin/user')."';</script>";
+ 
+                 }
+                 else
+                 {
+                     echo "<script>alert('error di bagian inputan gambarnya');</script>";
+                 }
+                 if($this->db->affected_rows() > 0)
+                 {
+                     echo "<script>alert('data Testimoni Berhasil Di simpan');</script>";
+                 }
+                 echo "<script>window.location='".site_url('admin/user')."';</script>";
+             
+             } 
+             else
+             {
+				$data = array(
+					'title_threads' => $judul,
+					'isi_threads' => $isi,
+					'img_threads' => null
+					);
+				$this->mlogin->input_data($data,'threads');
+			redirect('admin/thread');
+     
+                 if($this->db->affected_rows() > 0)
+                 {
+                     echo "<script>alert('data Testimoni Berhasil Di simpan');</script>";
+                 }
+                 echo "<script>window.location='".site_url('admin/menu/Testimoni')."';</script>";
+             }
+	
+	}
 	function update(){
 		$id = $this->input->post('id');
 		$username = $this->input->post('username');
@@ -193,6 +265,61 @@ class Admin extends CI_Controller {
 	}
 }
 
+function update_threads(){
+	$id = $this->input->post('id');
+	$judul = $this->input->post('judul');
+	$image = $this->input->post('image_up');
+	$isi = $this->input->post('isi');
+	$imgtarget = $this->input->post('sekarang');
+	$file_ext = pathinfo($_FILES['image_up']['name'], PATHINFO_EXTENSION);
+	$target=('uploads/'.$imgtarget);
+
+	$config['upload_path']		=	'./uploads/';
+	$config['allowed_types']	=	'jpg|png|jpeg';
+	$config['max_size']			=	2048;
+	$config['file_name']		=	'picture-'.date('ymd').'-'.substr(md5(rand()),0,10);
+
+	echo $imgtarget;
+
+	$this->load->library('upload', $config);
+	if(@$_FILES['image_up']['name'] != null)
+	{
+		if($this->upload->do_upload('image_up'))
+		{
+			if($imgtarget != null){
+				
+				unlink($target);
+
+			}
+			$where = array(
+				'id_threads' => $id
+			);
+		   $data = array(
+			   'title_threads' => $judul,
+			   'isi_threads' => $isi,
+			   'img_threads' => $config['file_name'].".".$file_ext
+			   );
+		   $this->mlogin->update_data($where,$data,'threads');
+		   redirect('admin/thread');
+	
+	}
+} 
+	else
+	{	
+		$where = array(
+			'id_threads' => $id
+		);
+	 
+		
+		$data = array(
+		'title_threads' => $judul,
+		'isi_threads' => $isi
+	   );
+   $this->mlogin->update_data($where,$data,'threads');
+	redirect('admin/thread');
+}
+}
+
 	function hapus($id){
 		$where = array('image' => $id);
 		$target=('uploads/'.$id);
@@ -206,6 +333,12 @@ class Admin extends CI_Controller {
 		$this->mlogin->hapus_data($where,'admin');
 	
 		redirect('admin/user');
+	}
+	function hapusthread($id){
+		$where = array('id_threads' => $id);
+		$this->mlogin->hapus_data($where,'threads');
+	
+		redirect('admin/thread');
 	}
 	function hapus1($id){
 		$where = array('id_admin' => $id);

@@ -46,9 +46,9 @@
 							<tr>
 								<th scope="row"><?php echo $no++ ?></th>
 								<td><?php echo $u->title_threads ?></td>
-                <td><?php echo $u->img_threads ?></td>
+                <td><img src="<?php echo base_url("uploads/".$u->img_threads)?>"width="100px" height="100px"></td>
                 <td><?php echo $u->isi_threads ?></td>
-                <td><button type="button" class="la la-trash-o"></button></a>&nbsp;<button type="button" data-target="#<?php echo $u->id_threads?>" data-toggle="modal" class="la la-edit"></button></td>
+                <td><a href="<?php echo base_url('admin/hapusthread/'.$u->id_threads);?>"><button type="button" class="la la-trash-o"></button></a>&nbsp;<button type="button" data-target="#<?php echo $u->id_threads?>" data-toggle="modal" class="la la-edit"></button></td>
 							</tr>
 						<?php }?>
 						</tbody>
@@ -63,6 +63,49 @@
       </div>
     </div>
     <!-- ////////////////////////////////////////////////////////////////////////////-->
+    <?php 
+$no = 1;
+foreach($threads as $u){ 
+?>
+
+<!-- Modal Update -->
+<div class="modal fade" id="<?php echo $u->id_threads ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Update SuperAdmin</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+	  <form method="post" action="<?=base_url('Admin/update_threads')?>" enctype="multipart/form-data">
+			<div class="form-group">
+			<input type="hidden" class="form-control" id="exampleInputEmail1" value="<?php echo $u->id_threads ?>" name="id" aria-describedby="emailHelp">
+			<input type="hidden" class="form-control" id="exampleInputEmail1" value="<?php echo $u->img_threads?>" name="sekarang" aria-describedby="emailHelp">
+				<label for="exampleInputEmail1">Judul</label>
+				<input type="text" class="form-control" id="exampleInputEmail1" value="<?php echo $u->title_threads ?>" name="judul" aria-describedby="emailHelp">
+			</div>
+			<div class="form-group">
+				<label for="image_up">Gambar</label><br>
+				<center><img src="<?php echo base_url("uploads/".$u->img_threads) ?>" width="100px" height="100px"><center><br>
+				<input type="file" class="form-control" name="image_up" id="image_up">
+			</div>
+      <div class="form-group">
+    <label for="exampleFormControlTextarea1">Isi Thread </label>
+    <textarea class="form-control" name="isi" id="exampleFormControlTextarea1" rows="3"><?php echo $u->isi_threads?></textarea>
+  </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		<button type="submit" class="btn btn-danger">Save</button>
+		</form>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<!-- Model Update End -->
+<?php } ?>
 
 
     <footer class="footer footer-static footer-light navbar-border navbar-shadow">
@@ -74,3 +117,38 @@
         </ul>
       </div>
     </footer>
+
+    
+	<!-- Modal Insert-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New Thread</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+	  <form method="post" action="<?=base_url('Admin/tambah_threads')?>" enctype="multipart/form-data">
+			<div class="form-group">
+				<label for="exampleInputEmail1">Judul</label>
+				<input type="text" class="form-control" id="exampleInputEmail1" name="judul" aria-describedby="emailHelp">
+			</div>
+			</br>
+			<div class="form-group">
+				<label for="image_input">Gambar</label>
+				<input type="file" class="form-control" name="image_input" id="image_input">
+			</div>
+      <div class="form-group">
+    <label for="exampleFormControlTextarea1">Isi Thread </label>
+    <textarea class="form-control" name="isi" id="exampleFormControlTextarea1" rows="3"></textarea>
+  </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		<button type="submit" class="btn btn-danger">Add</button>
+		</form>
+      </div>
+    </div>
+  </div>
+</div>
