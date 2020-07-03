@@ -31,60 +31,39 @@
     <!-- BEGIN Custom CSS-->
     <!-- END Custom CSS-->
     <style>
-    .thumbnail {
-		padding:0px;
-	}
-	.panel-comment {
-		position:relative;width:45%;
-	}
-	
-	.panel-comment > .panel-heading{
-		background-color:#E6E2E2 !important;
-	}
-	.panel-comment>.panel-heading:after,.panel>.panel-heading:before{
-		position:absolute;
-		top:11px;left:-16px;
-		right:100%;
-		width:0;
-		height:0;
-		display:block;
-		content:" ";
-		border-color:transparent;
-		border-style:solid solid outset;
-		pointer-events:none;
-	}
-	
-	.panel-comment>.panel-heading:after{
-		border-width:7px;
-		border-right-color:#E6E2E2;
-		margin-top:1px;
-		margin-left:2px;
-	}
-	.panel-comment>.panel-heading:before{
-		border-right-color:#ddd;
-		border-width:8px;
-  }
-
-  .chatlist {
-  -ms-flex: 0 0 25%;
-  flex: 0 0 25%;
-  max-width: 25%;
+    .carousel-item img {
+ 
+      height: 300px;
+        width: 300px;
+        object-fit: contain;
 }
-
-
-
-  @media screen and (max-width: 640px) {
-  .chatlist{
-  -ms-flex: 0 0 100%;
-  flex: 0 0 100%;
-  max-width: 100%;
-  }
-  .chatbox{
-  -ms-flex: 0 0 100%;
-  flex: 0 0 100%;
-  max-width: 100%;
-  padding: 0 0 ;
-  }
+.transparan{
+  background-color: rgba(255, 255, 255, 0);
+}
+    .carousel-caption{
+  opacity:0;
+  transition:200ms ease-in-out;
+}
+.carousel-item:hover .carousel-caption{
+  opacity:1;
+}
+.carousel-item:hover img{
+  filter:blur(2px);
+  transition:300ms ease-in-out;
+}
+/* Centered text */
+.thumbnail {
+    position: relative;
+}
+.thumbnail img{
+  filter:blur(1px);
+}
+.caption {
+    position: absolute;
+    top: 45%;
+    left: 0;
+    width: 100%;
+    opacity:1;
 }
 
  
@@ -99,22 +78,7 @@
           <div class="collapse navbar-collapse show" id="navbar-mobile">
             <ul class="nav navbar-nav mr-auto float-left">
               <li class="nav-item d-block d-md-none"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ft-menu"></i></a></li>
-              <li class="nav-item d-none d-md-block"><a class="nav-link nav-link-expand" href="#"><i class="ficon ft-maximize"></i></a></li>
-              <li class="nav-item dropdown navbar-search"><a class="nav-link dropdown-toggle hide" data-toggle="dropdown" href="#"><i class="ficon ft-search"></i></a>
-                <ul class="dropdown-menu">
-                  <li class="arrow_box">
-                    <form>
-                      <div class="input-group search-box">
-                        <div class="position-relative has-icon-right full-width">
-                          <input class="form-control" id="search" type="text" placeholder="Search here...">
-                          <div class="form-control-position navbar-search-close"><i class="ft-x">   </i></div>
-                        </div>
-                      </div>
-                    </form>
-                  </li>
-                </ul>
-              </li>
-            </ul>
+             </ul>
             <ul class="nav navbar-nav float-right">         
               <li class="dropdown dropdown-language nav-item"><a class="dropdown-toggle nav-link" id="dropdown-flag" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <?php
@@ -146,7 +110,6 @@
               <img src="<?php foreach($admin->result() as $row){ echo base_url("uploads/".$row->image); }?>"  width="50" height="60" alt="avatar"><i></i></span></a>
                 <div class="dropdown-menu dropdown-menu-right">
                   <div class="arrow_box_right"><a class="dropdown-item" href="#"><span class="avatar avatar-online"><img src="<?php foreach($admin->result() as $row){ echo base_url("uploads/".$row->image); }?>"><span class="user-name text-bold-700 ml-1"><?php foreach($admin->result() as $row){ echo $row->username; }?></span></span></a>
-                    <div class="dropdown-divider"></div><a class="dropdown-item" href="#"><i class="ft-user"></i> Edit Profile</a><a class="dropdown-item" href="#"><i class="ft-mail"></i> My Inbox</a><a class="dropdown-item" href="#"><i class="ft-check-square"></i> Task</a><a class="dropdown-item" href="#"><i class="ft-message-square"></i> Chats</a>
                     <div class="dropdown-divider"></div><a class="dropdown-item" href="<?php echo base_url('login/logout')?>"><i class="ft-power"></i> Logout</a>
                   </div>
                 </div>

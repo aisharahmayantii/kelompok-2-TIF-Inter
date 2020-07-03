@@ -22,7 +22,17 @@
           echo 'active';
           else
           echo 'nav-item';
-           ?>"><a href="<?php echo base_url('admin/invo')?>"><i class="la la-tags"></i><span class="menu-title" data-i18n="">Invoice</span></a>
+           ?>">
+           <a href="<?php echo base_url('admin/invo')?>"><i class="la la-tags"></i><span class="menu-title" data-i18n="">Invoice</span>
+           <?php 
+           $ntfinv = $this->db->query("SELECT * FROM transaksi WHERE user_admin =''");
+           $a = $ntfinv->num_rows();
+           if($a > 0){
+           ?>
+           <span class="badge badge badge-pill badge-danger float-right mr-2"><?php echo $a; ?></span>
+           <?php }else{ 
+             }?>
+           </a>
           </li>
           <li class="<?php
           if($url == "localhost/kelompok-2-TIF-Inter/sneaktion/admin/user")

@@ -23,6 +23,7 @@ class Admin extends CI_Controller {
                 $this_year= date("Y");
 				$yesteday = date("m")-1;
 				$now = date("m");
+		$invoice['tahun'] = $this->mlogin->datatahunan($this_year);
 		$invoice['last'] = $this->mlogin->bulan_kemarin($yesteday,$this_year);
 		$invoice['wes'] = $this->mlogin->bulan_sekarang($now,$this_year);
 		$this->load->view('addons/header',$user);
@@ -31,21 +32,6 @@ class Admin extends CI_Controller {
 		$this->load->view('addons/footer');
 	}
 	
-	function laporan(){
-		$user['admin']	= $this->model_user->getAdmin(array("id_admin =" => $this->session->userdata('id')));
-		$data['prosses'] = $this->mlaporan->cekstatus();
-		$data['selesai'] = $this->mlaporan->selesai();
-		$this->load->view('vlaporan', $data,$user);
-	}
-	
-	function chat(){
-		$user['admin']	= $this->model_user->getAdmin(array("id_admin =" => $this->session->userdata('id')));
-		$data['user']	= $this->model_user->getAll(array("id_user !=" => $this->session->userdata('id')));
-		$this->load->view('addons/header',$user);
-		$this->load->view('addons/adminsidebar');
-		$this->load->view('vchat', $data);
-		$this->load->view('addons/footer');
-	}
 	function thread(){
 		$user['admin']	= $this->model_user->getAdmin(array("id_admin =" => $this->session->userdata('id')));
 		$data['threads']	= $this->mlogin->tampil_datathreads()->result();
@@ -57,10 +43,10 @@ class Admin extends CI_Controller {
 	}
 
 	function invo(){
-		$user['admin']	= $this->model_user->getAdmin(array("id_admin =" => $this->session->userdata('id')));
+		$data['admin']	= $this->model_user->getAdmin(array("id_admin =" => $this->session->userdata('id')));
 		$data['datainv']	= $this->mlogin->tampil_data("transaksi")->result();
 		$data['user']	=$this->session->userdata('id');
-		$this->load->view('addons/header',$user);
+		$this->load->view('addons/header',$data);
 		$this->load->view('addons/adminsidebar');
 		$this->load->view('v_invo', $data);
 		$this->load->view('addons/footer');
@@ -149,6 +135,7 @@ class Admin extends CI_Controller {
 	function tambah_threads(){
 		$judul = $this->input->post('judul');
 		$isi = $this->input->post('isi');
+		$tanggal = $this->input->post('tanggal');
 		$poto = $this->input->post('image_input');
 		$file_ext = pathinfo($_FILES['image_input']['name'], PATHINFO_EXTENSION);
 
@@ -166,7 +153,8 @@ class Admin extends CI_Controller {
 					$data = array(
 						'title_threads' => $judul,
 						'isi_threads' => $isi,
-						'img_threads' => $config['file_name'].".".$file_ext
+						'img_threads' => $config['file_name'].".".$file_ext,
+						'tgl_threads' => $tanggal
 						);
 					$this->mlogin->input_data($data,'threads');
 					redirect('admin/thread');
@@ -194,7 +182,8 @@ class Admin extends CI_Controller {
 				$data = array(
 					'title_threads' => $judul,
 					'isi_threads' => $isi,
-					'img_threads' => null
+					'img_threads' => null,
+					'tgl_threads' => $tanggal
 					);
 				$this->mlogin->input_data($data,'threads');
 			redirect('admin/thread');
@@ -319,6 +308,40 @@ function update_threads(){
 	redirect('admin/thread');
 }
 }
+function ambilinvoice($id){
+	$qq = $this->session->userdata('id');
+	$status = "Proses";
+	$data = array(
+        'status' => $status,
+        'user_admin' => $qq
+);
+	$this->db->where('id_transaksi', $id);
+	$this->db->update("transaksi",$data);
+	redirect('admin/invo');
+}
+function fakeinv($id){
+	$status = "Fake";
+	$data = array(
+		'status' => $status
+	);
+	$this->db->where('id_transaksi', $id);
+	$this->db->update("transaksi",$data);
+	redirect('admin/invo');
+}
+function legitinv($id){
+	$status = "Legit";
+	$data = array(
+        'status' => $status
+);
+	$this->db->where('id_transaksi', $id);
+	$this->db->update("transaksi",$data);
+	redirect('admin/invo');
+}
+
+function printexcel($id){
+	$data['tahun'] = $id;
+	$this->load->view('addons/export_excel',$data);
+}
 
 	function hapus($id){
 		$where = array('image' => $id);
@@ -362,61 +385,4 @@ function update_threads(){
 		$this->load->view("vwChatBox",$data);
 	}
 	
-	function getChatAll(){
-		$this->load->model("model_user");
-		$this->load->model("model_chat");
-		
-		$id_user	= $this->input->post("id_user",true); //tujuan
-		$id			= $this->session->userdata('id'); //dari
-		$id_max		= $this->input->post('id_max'); //dari
-	
-		$where	= "(((user_1 = '$id_user' AND user_2 = '$id') OR (user_2 = '$id_user' AND user_1 = '$id')))";
-		$chat	= $this->model_chat->getAll($where);
-		
-		$where2	= "(((user_1 = '$id_user' AND user_2 = '$id') OR (user_2 = '$id_user' AND user_1 = '$id')) AND id_chat > '$id_max')";
-		$get_id = $this->model_chat->getLastId($where2);
-		
-		$data['id_max']		= $get_id['id_chat'];
-		$data['id_user']	= $id_user;
-		$data['chat'] 		= $chat;
-		$this->load->view("vwChatBox",$data);
-	}
-	
-	function getLastId(){
-		$this->load->model("model_user");
-		$this->load->model("model_chat");
-		
-		$id_user	= $this->input->post("id_user",true); //tujuan
-		$id			= $this->session->userdata('id'); //dari
-		$id_max		= $this->input->post('id_max'); //dari
-		
-		$where	= "(((user_1 = '$id_user' AND user_2 = '$id') OR (user_2 = '$id_user' AND user_1 = '$id')) AND id_chat > '$id_max')";
-		$get_id = $this->model_chat->getLastId($where);
-		
-		echo json_encode(array("id" => $get_id['id_chat'] != '' ?  $get_id['id_chat'] : $id_max ));
-	}
-	
-	function sendMessage(){
-		$this->load->model("model_chat");
-		$id_user	= $this->input->post("id_user",true); //tujuan/user_2
-		$id			= $this->session->userdata('id'); //dari/user_1
-		$pesan		= addslashes($this->input->post("pesan",true));
-		
-		$data	= array(
-			'user_1' => $id,
-			'user_2' => $id_user,
-			'pesan' => $pesan,
-		);
-		
-		$query	=	$this->model_chat->getInsert($data);
-		
-		if($query){
-			$rs = 1;
-		}else{
-			$rs	= 2;
-		}
-		
-		echo json_encode(array("result"=>$rs));
-		
-	}
 }

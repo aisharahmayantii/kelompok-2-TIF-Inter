@@ -111,9 +111,6 @@ foreach($threads as $u){
     <footer class="footer footer-static footer-light navbar-border navbar-shadow">
       <div class="clearfix blue-grey lighten-2 text-sm-center mb-0 px-2"><span class="float-md-left d-block d-md-inline-block">2018  &copy; Copyright <a class="text-bold-800 grey darken-2" href="https://themeselection.com" target="_blank">ThemeSelection</a></span>
         <ul class="list-inline float-md-right d-block d-md-inline-blockd-none d-lg-block mb-0">
-          <li class="list-inline-item"><a class="my-1" href="https://themeselection.com/" target="_blank"> More themes</a></li>
-          <li class="list-inline-item"><a class="my-1" href="https://themeselection.com/support" target="_blank"> Support</a></li>
-          <li class="list-inline-item"><a class="my-1" href="https://themeselection.com/products/chameleon-admin-modern-bootstrap-webapp-dashboard-html-template-ui-kit/" target="_blank"> Purchase</a></li>
         </ul>
       </div>
     </footer>
@@ -131,6 +128,9 @@ foreach($threads as $u){
       </div>
       <div class="modal-body">
 	  <form method="post" action="<?=base_url('Admin/tambah_threads')?>" enctype="multipart/form-data">
+    <input type="hidden" class="form-control" id="exampleInputEmail1" value="<?php 
+    $tanggal =  date("Y-m-d");
+    echo $tanggal?>" name="tanggal" aria-describedby="emailHelp">
 			<div class="form-group">
 				<label for="exampleInputEmail1">Judul</label>
 				<input type="text" class="form-control" id="exampleInputEmail1" name="judul" aria-describedby="emailHelp">

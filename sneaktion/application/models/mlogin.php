@@ -42,6 +42,11 @@ class mlogin extends CI_Model{
 		return $this->db->get_where('transaksi', array('MONTH(tanggal) ' => $month, 'YEAR(tanggal)'=> $year))->num_rows();
 	}
 
+	function datatahunan($year){
+		return $this->db->query("select year(tanggal) as tahunsekarang from transaksi where year(tanggal) != $year")->result();
+	}
+
+
 	function bulan_sekarang($month,$year){
 		return $this->db->get_where('transaksi', array('MONTH(tanggal) ' => $month, 'YEAR(tanggal)'=> $year))->num_rows();
 	}

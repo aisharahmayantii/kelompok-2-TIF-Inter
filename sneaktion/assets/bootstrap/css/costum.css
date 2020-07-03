@@ -17,4 +17,21 @@
 img{
   width: 96%;
 }
+.card{
+  width:auto;
+}
+  }
+  @media (min-width: 992px) {
+    .card{
+      width: 15rem;
+    }
+  
+  }
+  @media (min-width: 768px) {
+    #about{
+      margin-left:-210px;
+    }
+    #about img{
+      height:500px
+    }
   }

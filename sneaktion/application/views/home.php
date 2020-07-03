@@ -63,7 +63,7 @@
     </div>
   </header>
 
-  <section style="padding:50px 0;" id="about">
+  <section  id="about">
     
         <b><i><h1 style="font-family:'Lemon Milk'" class="text-center twcen">"SNEAKTION"</h1></i></b>
 
@@ -86,34 +86,34 @@
         <div class="col-lg-12 mx-auto">
         <b><i><h1 style="font-family:'Lemon Milk'" class="text-center twcen">"HOW TO"</h1></i></b>
         <p class="lead text-center">Tata cara menggunakan app <br>SNEAKTION</p>
-        <div class="d-flex justify-content-center">
-        <div class="col-sm-3">
-        <div class="card" style="width: 15rem">
-          <img width ="100%" src="<?php echo base_url('assets/img/logo.png')?>" class="card-img-top" width="1%">
+        <div class="d-flex justify-content-center row">
+        <div class="col-xl-3 col-md-6 col-lg-12">
+        <div class="card" >
+          <img width ="100%" src="<?php echo base_url('assets/img/logo.png')?>"  height="240px" style="object-fit:contain;"class="card-img-top" width="1%">
           <div class="card-body">
             <p class="card-text">Download Our App</p>
           </div>
         </div>
         </div>
-        <div class="col-sm-3">
-          <div class="card" style="width: 15rem">
-          <img src="<?php echo base_url('assets/img/cari.png')?>" class="card-img-top" width="1%">
+        <div class="col-xl-3 col-md-6 col-lg-12">
+          <div class="card" >
+          <img src="<?php echo base_url('assets/img/cari.png')?>" height="240px" style="object-fit:contain;" class="card-img-top" width="1%">
           <div class="card-body">
             <p class="card-text">Tap "Legit Chek"</p>
           </div>
         </div>
         </div>
-        <div class="col-sm-3">
-          <div class="card" style="width: 15rem">
-          <img src="<?php echo base_url('assets/img/coin.png')?>" class="card-img-top" width="1%">
+        <div class="col-xl-3 col-md-6 col-lg-12">
+          <div class="card" >
+          <img src="<?php echo base_url('assets/img/coin.png')?>" height="240px" style="object-fit:contain;" class="card-img-top" width="1%">
           <div class="card-body">
             <p class="card-text">Pay To Use Our Service</p>
           </div>
         </div>
         </div>
-        <div class="col-sm-3">
-          <div class="card" width ="100px">
-          <img src="<?php echo base_url('assets/img/chat.png')?>" class="card-img-top">
+        <div class="col-xl-3 col-md-6 col-lg-12">
+          <div class="card" >
+          <img src="<?php echo base_url('assets/img/chat.png')?>" height="240px" style="object-fit:contain;" class="card-img-top">
           <div class="card-body">
             <p class="card-text">Wait Until We Figured Out Your Shoes</p>
           </div>
